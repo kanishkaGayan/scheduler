@@ -29,6 +29,7 @@ const App = () => {
   const [isSyncing, setIsSyncing] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [tomorrowTasks, setTomorrowTasks] = useState<Task[]>([]);
 
   // Online status detection
   const { isOnline, wasOffline } = useOnlineStatus();
@@ -180,6 +181,24 @@ const App = () => {
 
   const totalPages = itemsPerPage === -1 ? 1 : Math.ceil(filteredTasks.length / itemsPerPage);
 
+  // Check for tasks with tomorrow's deadline
+  useEffect(() => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
+
+    const tomorrowEnd = new Date(tomorrow);
+    tomorrowEnd.setHours(23, 59, 59, 999);
+
+    const upcomingTasks = tasks.filter((task) => {
+      if (task.status === 'Completed') return false;
+      const taskDate = new Date(task.deadline);
+      return taskDate >= tomorrow && taskDate <= tomorrowEnd;
+    });
+
+    setTomorrowTasks(upcomingTasks);
+  }, [tasks]);
+
   // Handler to add or update task
   const handleAddTask = async (taskData: Omit<Task, 'id'> | Task) => {
     try {
@@ -317,6 +336,7 @@ const App = () => {
           changelog={newVersion.changelog}
           onUpdate={applyUpdate}
           onDismiss={() => setShowUpdateNotification(false)}
+          downloadUrl={newVersion.downloadUrl}
         />
       )}
 
@@ -336,7 +356,10 @@ const App = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">TimeKeeper</h1>
+              <div className="flex items-baseline gap-2">
+                <h1 className="text-3xl font-bold text-gray-900">TimeKeeper</h1>
+                <span className="text-xs text-gray-400 font-medium">v1.0.11</span>
+              </div>
               <p className="text-gray-500 text-sm mt-1">Manage your tasks efficiently</p>
             </div>
             <div className="flex items-center gap-4">
@@ -355,6 +378,38 @@ const App = () => {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Tomorrow's Deadline Reminder */}
+        {tomorrowTasks.length > 0 && (
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6 shadow-sm">
+            <div className="flex items-start gap-3">
+              <div className="flex-shrink-0">
+                <svg className="h-5 w-5 text-amber-600 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-sm font-semibold text-amber-900">Deadline Reminder</h3>
+                <p className="text-sm text-amber-800 mt-1">
+                  You have <span className="font-bold">{tomorrowTasks.length}</span> {tomorrowTasks.length === 1 ? 'task' : 'tasks'} due tomorrow!
+                </p>
+                <div className="mt-2 text-xs text-amber-700">
+                  {tomorrowTasks.slice(0, 3).map((task) => (
+                    <div key={task.id} className="flex items-center gap-1">
+                      <span className={`inline-block w-2 h-2 rounded-full ${
+                        task.priority === 'High' ? 'bg-red-500' : 
+                        task.priority === 'Medium' ? 'bg-yellow-500' : 
+                        'bg-green-500'
+                      }`}></span>
+                      {task.title}
+                    </div>
+                  ))}
+                  {tomorrowTasks.length > 3 && <div className="text-amber-700">+ {tomorrowTasks.length - 3} more</div>}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Loading State */}
         {loading && (
           <div className="flex justify-center items-center min-h-96">

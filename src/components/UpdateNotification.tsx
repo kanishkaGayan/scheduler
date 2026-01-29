@@ -1,11 +1,12 @@
 import { FC } from 'react';
-import { RefreshCw, X } from 'lucide-react';
+import { RefreshCw, X, Download, ExternalLink } from 'lucide-react';
 
 interface UpdateNotificationProps {
   version: string;
   changelog: string[];
   onUpdate: () => void;
   onDismiss: () => void;
+  downloadUrl?: string;
 }
 
 export const UpdateNotification: FC<UpdateNotificationProps> = ({
@@ -13,13 +14,14 @@ export const UpdateNotification: FC<UpdateNotificationProps> = ({
   changelog,
   onUpdate,
   onDismiss,
+  downloadUrl,
 }) => {
   return (
-    <div className="fixed bottom-4 right-4 z-50 bg-white rounded-lg shadow-2xl border-2 border-indigo-500 max-w-md">
+    <div className="fixed bottom-4 right-4 z-50 bg-white rounded-lg shadow-2xl border-2 border-emerald-500 max-w-md">
       <div className="p-4">
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-2">
-            <RefreshCw className="w-5 h-5 text-indigo-600" />
+            <Download className="w-5 h-5 text-emerald-600" />
             <h3 className="font-bold text-gray-900">Update Available</h3>
           </div>
           <button
@@ -31,7 +33,7 @@ export const UpdateNotification: FC<UpdateNotificationProps> = ({
         </div>
 
         <p className="text-sm text-gray-600 mb-2">
-          Version <span className="font-semibold text-indigo-600">{version}</span> is now available!
+          Version <span className="font-semibold text-emerald-600">{version}</span> is now available on GitHub!
         </p>
 
         {changelog.length > 0 && (
@@ -45,13 +47,21 @@ export const UpdateNotification: FC<UpdateNotificationProps> = ({
           </div>
         )}
 
-        <button
-          onClick={onUpdate}
-          className="w-full px-4 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2"
-        >
-          <RefreshCw className="w-4 h-4" />
-          Update Now
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={onDismiss}
+            className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 font-medium rounded-md hover:bg-gray-200 transition-colors"
+          >
+            Later
+          </button>
+          <button
+            onClick={onUpdate}
+            className="flex-1 px-4 py-2 bg-emerald-600 text-white font-medium rounded-md hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2"
+          >
+            <ExternalLink className="w-4 h-4" />
+            {downloadUrl ? 'Download' : 'Update'}
+          </button>
+        </div>
       </div>
     </div>
   );

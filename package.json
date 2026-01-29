@@ -1,7 +1,7 @@
 {
   "name": "timekeeper",
   "private": true,
-  "version": "1.0.1",
+  "version": "1.0.11",
   "type": "module",
   "main": "electron/main.js",
   "homepage": "./",
@@ -9,10 +9,6 @@
   "author": {
     "name": "Kanishka Gayan",
     "email": "kanishka@example.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/kanishkaGayan/scheduler.git"
   },
   "scripts": {
     "dev": "vite",
@@ -48,11 +44,6 @@
   "build": {
     "appId": "com.kanishka.timekeeper",
     "productName": "TimeKeeper",
-    "publish": {
-      "provider": "github",
-      "owner": "kanishkaGayan",
-      "repo": "scheduler"
-    },
     "directories": {
       "output": "release",
       "buildResources": "electron/build"
