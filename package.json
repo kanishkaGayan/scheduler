@@ -1,0 +1,86 @@
+{
+  "name": "timekeeper",
+  "private": true,
+  "version": "1.0.1",
+  "type": "module",
+  "main": "electron/main.js",
+  "homepage": "./",
+  "description": "Personal task scheduling application with offline support",
+  "author": {
+    "name": "Kanishka Gayan",
+    "email": "kanishka@example.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kanishkaGayan/scheduler.git"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "electron:dev": "concurrently \"cross-env BROWSER=none npm run dev\" \"wait-on http://localhost:5173 && cross-env ELECTRON_START_URL=http://localhost:5173 NODE_ENV=development electron .\"",
+    "electron:build": "npm run build && electron-builder --linux appimage",
+    "electron:build:deb": "npm run build && electron-builder --linux deb",
+    "electron:build:all": "npm run build && electron-builder --linux",
+    "electron:build:win": "npm run build && electron-builder --win --x64"
+  },
+  "dependencies": {
+    "firebase": "^10.7.0",
+    "lucide-react": "^0.376.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.27",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.17",
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
+    "electron": "^40.0.0",
+    "electron-builder": "^26.4.0",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.4.2",
+    "vite": "^5.1.1",
+    "wait-on": "^9.0.3"
+  },
+  "build": {
+    "appId": "com.kanishka.timekeeper",
+    "productName": "TimeKeeper",
+    "publish": {
+      "provider": "github",
+      "owner": "kanishkaGayan",
+      "repo": "scheduler"
+    },
+    "directories": {
+      "output": "release",
+      "buildResources": "electron/build"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*"
+    ],
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb",
+        "rpm"
+      ],
+      "category": "Productivity",
+      "icon": "electron/build/icon.png",
+      "executableName": "timekeeper"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "electron/build/icon.png"
+    }
+  }
+}

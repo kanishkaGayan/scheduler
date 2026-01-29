@@ -1,0 +1,9 @@
+{
+  "version": "1.0.1",
+  "releaseDate": "2026-01-29",
+  "changelog": [
+    "Added pagination with 10, 30, 50, and All options",
+    "Improved Save button styling in task form",
+    "UI improvements and layout fixes"
+  ]
+}
