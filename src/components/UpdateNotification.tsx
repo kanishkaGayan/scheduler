@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { RefreshCw, X, Download, ExternalLink } from 'lucide-react';
+import { X, Download, ExternalLink } from 'lucide-react';
 
 interface UpdateNotificationProps {
   version: string;

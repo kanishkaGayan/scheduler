@@ -1,11 +1,10 @@
 {
-  "version": "1.0.11",
+  "version": "1.0.12",
   "releaseDate": "2026-01-29",
   "changelog": [
-    "Added version display in header",
-    "Added reminder notification for tomorrow's deadlines",
-    "Added pagination with 10, 30, 50, and All options",
-    "Improved Save button styling in task form",
-    "UI improvements and layout fixes"
+    "Auto-update system now fully integrated with GitHub releases",
+    "Enhanced update notification UI",
+    "Fixed version detection logic",
+    "Added automatic release checking every 30 minutes"
   ]
 }

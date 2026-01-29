@@ -18,8 +18,8 @@ interface GitHubRelease {
 }
 
 const CURRENT_VERSION = '1.0.11';
-// Replace with your GitHub repo
-const GITHUB_REPO = 'kanishka-gayan/timekeeper'; // Change this to your repo
+// Your GitHub repo
+const GITHUB_REPO = 'kanishkaGayan/scheduler';
 const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/releases/latest`;
 const CHECK_INTERVAL = 1000 * 60 * 30; // Check every 30 minutes
 

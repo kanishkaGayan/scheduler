@@ -358,9 +358,9 @@ const App = () => {
             <div>
               <div className="flex items-baseline gap-2">
                 <h1 className="text-3xl font-bold text-gray-900">TimeKeeper</h1>
-                <span className="text-xs text-gray-400 font-medium">v1.0.11</span>
+                <span className="text-xs text-gray-400 font-medium">v1.0.12</span>
               </div>
-              <p className="text-gray-500 text-sm mt-1">Manage your tasks efficiently</p>
+              <p className="text-gray-500 text-sm mt-1">Manage your tasks with auto-update support</p>
             </div>
             <div className="flex items-center gap-4">
               <ConnectivityStatus isOnline={isOnline} isSyncing={isSyncing} />
